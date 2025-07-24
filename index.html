@@ -465,6 +465,7 @@
 <button class="continue-btn px-8 py-4 rounded-xl text-xl font-semibold shadow-lg button-style" id="submitApplicationBtn" type="button">Continue</button>
 </div>
 </div>
+
 </form>
 <div class="hidden flex flex-col items-center justify-center text-center w-full max-w-5xl px-4 md:px-8 py-16 md:py-24 flex-grow" id="thankYouPage">
 <h2 class="font-montserrat text-theme-heading text-4xl md:text-5xl font-bold mb-8">Thank you for submitting the funding application!</h2>
@@ -1149,9 +1150,9 @@ document.getElementById('applicationForm').addEventListener('submit', async func
     }
 });
 </script><script>
-// Prefill & Redirect on Step 3 Continue
 document.getElementById('submitApplicationBtn').addEventListener('click', function(e) {
   e.preventDefault();
+  e.stopImmediatePropagation();
   const V = id => encodeURIComponent(document.getElementById(id).value);
   const url = new URL('https://form.jotform.com/252018689230154');
   // Step 1
