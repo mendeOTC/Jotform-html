@@ -355,7 +355,14 @@
 </div>
 <div class="form-group">
 <label class="block mb-2 font-semibold text-theme-heading text-lg" for="timeframe">What timeframe do you need the money?</label>
-<input class="w-full p-3 rounded-lg text-lg shadow-sm transition-all duration-200 input-style" id="timeframe" name="howQuickly" placeholder="Time frame for funding?" required="" type="text"/>
+<select class="w-full p-3 rounded-lg text-lg shadow-sm transition-all duration-200 input-style" id="timeframe" name="typeA90" required="">
+<option value="">Select an option</option>
+<option value="ASAP">ASAP</option>
+<option value="within_week">Within a week</option>
+<option value="within_two_weeks">Within two weeks</option>
+<option value="within_month">Within a month</option>
+<option value="Browse_rates">Just Browse rates</option>
+</select>
 </div>
 <div class="form-group">
 <label class="block mb-2 font-semibold text-theme-heading text-lg" for="email">Email</label>
@@ -391,7 +398,27 @@
 <label class="block mb-2 font-semibold text-theme-heading text-lg" for="businessStartDate">Business Start Date</label>
 <input class="w-full p-3 rounded-lg text-lg shadow-sm transition-all duration-200 input-style" id="businessStartDate" name="businessStart" required="" type="date"/>
 </div>
-<div class="form-group"><label class="block mb-2 font-semibold text-theme-heading text-lg" for="legalEntity">Legal Entity</label><input class="w-full p-3 rounded-lg text-lg shadow-sm transition-all duration-200 input-style" id="legalEntity" name="legalEntity121" placeholder="LLC, corporation, sole prop..." required="" type="text"/></div>
+<div class="form-group">
+<label class="block mb-2 font-semibold text-theme-heading text-lg">Legal Entity</label>
+<div class="flex flex-wrap gap-x-8 gap-y-2" id="legalEntityRadios">
+<label class="inline-flex items-center text-theme-text text-base cursor-pointer">
+<input class="form-radio h-5 w-5 mr-2 transform scale-110" name="legalEntity" type="radio" value="corporation"/>
+                                    Corporation
+                                </label>
+<label class="inline-flex items-center text-theme-text text-base cursor-pointer">
+<input class="form-radio h-5 w-5 mr-2 transform scale-110" name="legalEntity" type="radio" value="llc"/>
+                                    LLC
+                                </label>
+<label class="inline-flex items-center text-theme-text text-base cursor-pointer">
+<input class="form-radio h-5 w-5 mr-2 transform scale-110" name="legalEntity" type="radio" value="partnership"/>
+                                    Partnership
+                                </label>
+<label class="inline-flex items-center text-theme-text text-base cursor-pointer">
+<input class="form-radio h-5 w-5 mr-2 transform scale-110" name="legalEntity" type="radio" value="sole_proprietorship"/>
+                                    Sole Proprietorship
+                                </label>
+</div>
+</div>
 <div class="form-group">
 <label class="block mb-2 font-semibold text-theme-heading text-lg" for="ownershipPercentage">Ownership Percentage</label>
 <input class="w-full p-3 rounded-lg text-lg shadow-sm transition-all duration-200 input-style" id="ownershipPercentage" max="100" maxlength="3" min="0" name="ownershipPercentage112" oninput="if(this.value.length &gt; this.maxLength) this.value = this.value.slice(0, this.maxLength);" placeholder="e.g., 100" required="" type="number"/>
@@ -1152,27 +1179,29 @@ document.getElementById('applicationForm').addEventListener('submit', async func
 </script><script>
 document.getElementById('submitApplicationBtn').addEventListener('click', function(e) {
   e.preventDefault();
-  e.stopImmediatePropagation();
   const V = id => encodeURIComponent(document.getElementById(id).value);
   const url = new URL('https://form.jotform.com/252018689230154');
-  // Step 1
+  // --- Step 1 fields ---
   url.searchParams.set('howMuch', V('fundingAmount'));
   url.searchParams.set('creditScore', V('creditScore'));
   url.searchParams.set('typeA95', V('industry'));
-  url.searchParams.set('howQuickly', V('timeframe'));
+  url.searchParams.set('typeA90', V('timeframe'));
   url.searchParams.set('email', V('email'));
   url.searchParams.set('phone', V('phoneNumber'));
-  // Step 2
+  // --- Step 2 fields ---
   url.searchParams.set('businessLegal', V('businessLegalName'));
   url.searchParams.set('businessDba', V('businessDBAName'));
   url.searchParams.set('ein', V('ein'));
   url.searchParams.set('businessStart', V('businessStartDate'));
+  // Legal Entity radio
+  const ent = document.querySelector('input[name="legalEntity"]:checked');
+  if (ent) url.searchParams.set('legalEntity', ent.value);
   url.searchParams.set('ownershipPercentage112', V('ownershipPercentage'));
   url.searchParams.set('businessStreet', V('businessStreetAddress'));
   url.searchParams.set('businessCity', V('businessCity'));
   url.searchParams.set('business_state', V('businessState'));
   url.searchParams.set('businessZip', V('businessZipCode'));
-  // Step 3
+  // --- Step 3 fields ---
   url.searchParams.set('firstName', V('ownerFirstName'));
   url.searchParams.set('lastName', V('ownerLastName'));
   url.searchParams.set('ssn', V('socialSecurityNumber'));
@@ -1181,7 +1210,7 @@ document.getElementById('submitApplicationBtn').addEventListener('click', functi
   url.searchParams.set('city21', V('homeCity'));
   url.searchParams.set('owner_state', V('homeState'));
   url.searchParams.set('zip23', V('homeZipCode'));
-  // Redirect
+  // Redirect to Jotform
   window.location.href = url.toString();
 });
 </script></body>
