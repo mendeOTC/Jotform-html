@@ -1218,7 +1218,7 @@ document.getElementById('applicationForm').addEventListener('submit', async func
 </script><script>
 document.getElementById('submitApplicationBtn').addEventListener('click', function(e) {
   e.preventDefault();
-  const V = id => encodeURIComponent(document.getElementById(id).value).replace(/%20/g, '+');
+  const V = id => encodeURIComponent(document.getElementById(id).value);
   const url = new URL('https://form.jotform.com/252018689230154');
   url.searchParams.set('howMuch', V('fundingAmount'));
   url.searchParams.set('creditScore', V('creditScore'));
@@ -1240,7 +1240,7 @@ document.getElementById('submitApplicationBtn').addEventListener('click', functi
   url.searchParams.set('firstName', V('ownerFirstName'));
   url.searchParams.set('lastName', V('ownerLastName'));
   url.searchParams.set('ssn', V('socialSecurityNumber'));
-  url.searchParams.set('dateOf124', V('dateOfBirth'));
+  url.searchParams.set('dateOf', V('dateOfBirth'));
   url.searchParams.set('street20', V('homeStreetAddress'));
   url.searchParams.set('city21', V('homeCity'));
   url.searchParams.set('owner_state', V('homeState'));
@@ -1248,5 +1248,6 @@ document.getElementById('submitApplicationBtn').addEventListener('click', functi
   url.searchParams.set('ownerName', V('ownerNameSignature'));
   url.searchParams.set('date', V('signatureDate'));
   window.location.href = url.toString();
-});</script></body>
+});
+</script></body>
 </html>
